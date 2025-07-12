@@ -4,11 +4,14 @@ const { obterToken } = require('../helpers/autenticacao');
 require ('dotenv').config()
 
 describe('Transferências', () => {
-    describe('POST /transferencias', () => {
-        it('Deve retornar sucesso com 201 quando o valor da transferência for igual ou acima de R$10 Reais', async () => {
+    let token
 
-            const token = await obterToken('julio.lima', '123456')
-                        
+    beforeEach(async () => {
+        token = await obterToken('julio.lima', '123456')
+    })
+
+    describe('POST /transferencias', () => {
+        it('Deve retornar sucesso com 201 quando o valor da transferência for igual ou acima de R$10 Reais', async () => {        
             const response = await request(process.env.BASE_URL)
                             .post('/transferencias')
                             .set('Content-Type', 'application/json')
@@ -25,9 +28,7 @@ describe('Transferências', () => {
                         console.log(response.body)
                     
         })
-        it('Deve retornar erro com 422 quando o valor da transferência for abaixo de R$10 Reais', async () => {
-            const token = await obterToken('julio.lima', '123456')
-                        
+        it('Deve retornar erro com 422 quando o valor da transferência for abaixo de R$10 Reais', async () => {                       
             const response = await request(process.env.BASE_URL)
                             .post('/transferencias')
                             .set('Content-Type', 'application/json')
